@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonComp } from '../components/Button';
 import { RadioItem } from '../components/RadioItem';
 import { TripContext } from '../context/TripContext';
+import { TripRangePicker } from './TripRangePicker';
 
 export const ExpenseInput = ({ callback }) => {
     const [ state, setState ] = useState({
@@ -85,7 +86,8 @@ export const TripInputs = ({ callback }) => {
         details: '',
         cost: '',
         isTrip: false,
-        inOrOut: ''
+        inOrOut: '',
+
     })
 
     const navigation = useNavigation();
@@ -115,7 +117,8 @@ export const TripInputs = ({ callback }) => {
             <RadioItem 
                 firstItem="Domestic"
                 secondItem="International"
-                callback={ setIntOrDomestic }
+                tripDets={ tripDetails }
+                setDets={ setTripDetails }
             />
             <Text style={[ { fontSize: 24 }, tw.style('text-left', 'text-white', 'font-bold', 'my-5') ]}>Trip </Text>
             <TextInput 
@@ -124,6 +127,10 @@ export const TripInputs = ({ callback }) => {
                 value={ tripDetails.destination }
                 clearButtonMode="always"
                 onChangeText={ text => setTripDetails({ ...tripDetails, destination: text }) }
+            />
+            <TripRangePicker
+                tripDets={ tripDetails } 
+                setDets={ setTripDetails }
             />
             <TextInput 
                 style={ tw.style('w-5/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }

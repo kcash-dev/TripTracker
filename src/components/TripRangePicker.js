@@ -1,54 +1,79 @@
-import * as React from 'react';
-import { Button } from 'react-native-paper';
+import React, {useState} from 'react';
+import {
+  View, 
+  Button, 
+  Platform,
+  TouchableOpacity,
+  Text
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import tw from 'tailwind-react-native-classnames';
+import moment from "moment";
 
-import { DatePickerModal } from 'react-native-paper-dates';
+export const TripRangePicker = ({ tripDets, setDets }) => {
+  const [ date, setDate]  = useState(new Date(1598051730000));
+  const [ startDate, setStartDate] = useState(new Date(1598051730000));
+  const [ endDate, setEndDate] = useState(new Date(1598051730000));
+  const [ show, setShow ] = useState(false);
 
-export const TripRangePicker = () => {
-  const [range, setRange] = React.useState<{
-    startDate: Date | undefined,
-    endDate: Date | undefined
-  }>({ startDate: undefined, endDate: undefined });
+  const tripDetails = tripDets;
 
-  const [open, setOpen] = React.useState(false);
+  const onChangeStart = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setStartDate(selectedDate);
+    const fixedStartDate = moment(startDate).format('MMMM Do YYYY');
+    setDetails({ ...tripDetails, startDate: fixedStartDate })
+  };
 
-  const onDismiss = React.useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
+  const onChangeEnd = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setEndDate(selectedDate);
+    const fixedEndDate = moment(endDate).format('MMMM Do YYYY');
+    setDetails({ ...tripDetails, endDate: fixedEndDate })
+  };
 
-  const onConfirm = React.useCallback(
-    ({ startDate, endDate }) => {
-      setOpen(false);
-      setRange({ startDate, endDate });
-    },
-    [setOpen, setRange]
-  );
+  const setDetails = (value) => {
+    setDets(value)
+  }
+
+  const showMode = () => {
+    setShow(!show);
+  };
 
   return (
-    <>
-      <Button onPress={() => setOpen(true)} uppercase={false} mode="outlined">
-        Pick range
-      </Button>
-      <DatePickerModal
-        // locale={'en'} optional, default: automatic
-        mode="range"
-        visible={open}
-        onDismiss={onDismiss}
-        startDate={range.startDate}
-        endDate={range.endDate}
-        onConfirm={onConfirm}
-        // validRange={{
-        //   startDate: new Date(2021, 1, 2),  // optional
-        //   endDate: new Date(), // optional
-        // }}
-        // onChange={} // same props as onConfirm but triggered without confirmed by user
-        // locale={'nl'} // optional
-        // saveLabel="Save" // optional
-        // label="Select period" // optional
-        // startLabel="From" // optional
-        // endLabel="To" // optional
-        // animationType="slide" // optional, default is slide on ios/android and none on web
-      />
-    </>
+    <View style={ tw.style('mb-10') }>
+      <View style={ tw.style('items-center') }>
+        <TouchableOpacity 
+          onPress={showMode}
+          style={ tw.style('border-2', 'rounded-full', 'shadow-lg', 'border-black', 'bg-white' ) }
+        >
+          <Text style={[ { fontSize: 20 }, tw.style('p-3') ]}>Select trip dates</Text>
+        </TouchableOpacity>
+      </View>
+      {show && (
+        <View style={ tw.style('flex-row', 'justify-center', 'mt-5')}>
+          <DateTimePicker
+            testID="startDateTimePicker"
+            value={ startDate }
+            mode={ 'date' }
+            is24Hour={ true }
+            display="default"
+            onChange={ setStartDate }
+            style={{ width: 100 }}
+          />
+          <DateTimePicker
+            testID="endDateTimePicker"
+            value={ endDate }
+            mode={ 'date' }
+            is24Hour={ true }
+            display="default"
+            onChange={ setEndDate }
+            style={{ width: 100 }}
+          />
+        </View>
+      )}
+    </View>
   );
-}
-
+};

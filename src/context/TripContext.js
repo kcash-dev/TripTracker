@@ -9,7 +9,9 @@ const TripProvider = (props) => {
         destination: '',
         details: '',
         date: '',
-        cost: ''
+        cost: '',
+        startDate: '',
+        endDate: ''
     });
     
     return (
