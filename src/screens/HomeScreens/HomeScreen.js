@@ -11,7 +11,7 @@ import tw from 'tailwind-react-native-classnames';
 
 // Components
 import { ExpensesBox } from '../../components/ExpensesBox';
-import { DailyBudget } from '../../components/DailyBudget';
+import { DayBudget } from '../../components/DayBudget'
 import { icons } from '../../assets/Icons';
 
 const HomeScreen = ({ navigation }) => {
@@ -40,18 +40,13 @@ const HomeScreen = ({ navigation }) => {
     <View 
       style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'justify-center', 'items-center') ]}
     >
-      <DailyBudget 
-        budget={ budget }
-      />
+      {/* <DayBudget budget={ budget }/> */}
       <View style={ tw.style('w-3/4') }>
         {/* <ExpenseInput 
           callback={ getExpense }
         /> */}
         { !hideBudget ? 
-           <DailyBudgetInput 
-            callback={ getBudget }
-            hiddenBudget={ hideTheBudget }
-          />
+           <DayBudget />
         :
         <TouchableOpacity
           onPress={ hideTheBudget }

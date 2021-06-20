@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonComp } from '../components/Button';
 import { RadioItem } from '../components/RadioItem';
 import { TripContext } from '../context/TripContext';
-import { TripRangePicker } from './TripRangePicker';
+import { TripDateRangePicker } from './TripRangePicker';
 
 export const ExpenseInput = ({ callback }) => {
     const [ state, setState ] = useState({
@@ -87,7 +87,8 @@ export const TripInputs = ({ callback }) => {
         cost: '',
         isTrip: false,
         inOrOut: '',
-
+        startDate: '',
+        endDate: ''
     })
 
     const navigation = useNavigation();
@@ -98,9 +99,9 @@ export const TripInputs = ({ callback }) => {
         navigation.pop();
     }
 
-    const setIntOrDomestic = (value) => {
-        setTripDetails(tripDetails.inOrOut = value)
-    }
+    const getDates = (value) => {
+        setTripDetails(value);
+    } 
 
     return (
         <ScrollView 
@@ -109,28 +110,18 @@ export const TripInputs = ({ callback }) => {
         >
             <TextInput 
                 style={ tw.style('w-5/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
-                label="Enter Trip Name"
+                label="Where are you headed?"
                 value={ tripDetails.name }
                 clearButtonMode="always"
                 onChangeText={ text => setTripDetails({ ...tripDetails, name: text }) }
             />
             <RadioItem 
-                firstItem="Domestic"
-                secondItem="International"
                 tripDets={ tripDetails }
                 setDets={ setTripDetails }
             />
-            <Text style={[ { fontSize: 24 }, tw.style('text-left', 'text-white', 'font-bold', 'my-5') ]}>Trip </Text>
-            <TextInput 
-                style={ tw.style('w-5/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
-                label="Enter Destination"
-                value={ tripDetails.destination }
-                clearButtonMode="always"
-                onChangeText={ text => setTripDetails({ ...tripDetails, destination: text }) }
-            />
-            <TripRangePicker
+            <TripDateRangePicker
                 tripDets={ tripDetails } 
-                setDets={ setTripDetails }
+                setDets={ getDates }
             />
             <TextInput 
                 style={ tw.style('w-5/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }

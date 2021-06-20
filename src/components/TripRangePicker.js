@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, 
   Button, 
@@ -10,67 +10,70 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import tw from 'tailwind-react-native-classnames';
 import moment from "moment";
 
-export const TripRangePicker = ({ tripDets, setDets }) => {
-  const [ date, setDate]  = useState(new Date(1598051730000));
-  const [ startDate, setStartDate] = useState(new Date(1598051730000));
-  const [ endDate, setEndDate] = useState(new Date(1598051730000));
-  const [ show, setShow ] = useState(false);
+export const TripDateRangePicker = ({ tripDets, setDets }) => {
+  const [ startDate, setStartDate ] = useState(new Date());
+  const [ endDate, setEndDate ] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
 
   const tripDetails = tripDets;
-
-  const onChangeStart = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setStartDate(selectedDate);
-    const fixedStartDate = moment(startDate).format('MMMM Do YYYY');
-    setDetails({ ...tripDetails, startDate: fixedStartDate })
-  };
-
-  const onChangeEnd = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setEndDate(selectedDate);
-    const fixedEndDate = moment(endDate).format('MMMM Do YYYY');
-    setDetails({ ...tripDetails, endDate: fixedEndDate })
-  };
 
   const setDetails = (value) => {
     setDets(value)
   }
 
-  const showMode = () => {
-    setShow(!show);
+  console.log(moment(startDate).format('MMMM Do YYYY'));
+  console.log(moment(endDate).format('MMMM Do YYYY'));
+
+  const onChangeStart = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(Platform.OS === 'ios');
+    setStartDate(currentDate);
+  };
+
+  useEffect(() => {
+      const fixedDetail = moment(startDate).format()
+      setDetails({ ...tripDetails, startDate: fixedDetail })
+  }, [ startDate ]);
+
+  useEffect(() => {
+    const fixedDetail = moment(endDate).format()
+    setDetails({ ...tripDetails, endDate: fixedDetail })
+  }, [ endDate ]);
+
+  const onChangeEnd = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(Platform.OS === 'ios');
+    setEndDate(currentDate);
   };
 
   return (
-    <View style={ tw.style('mb-10') }>
+    <View>
       <View style={ tw.style('items-center') }>
         <TouchableOpacity 
-          onPress={showMode}
-          style={ tw.style('border-2', 'rounded-full', 'shadow-lg', 'border-black', 'bg-white' ) }
+          onPress={ () => setShow(!show) } 
+          style={ tw.style('bg-white', 'mb-5', 'border-2', 'border-black', 'rounded-full', 'shadow-lg' ) }
         >
-          <Text style={[ { fontSize: 20 }, tw.style('p-3') ]}>Select trip dates</Text>
+          <Text style={ tw.style('p-3', 'text-center') }>Select date</Text>
         </TouchableOpacity>
       </View>
       {show && (
-        <View style={ tw.style('flex-row', 'justify-center', 'mt-5')}>
+        <View style={ tw.style('flex-row', 'w-2/3', 'mb-5') }>
           <DateTimePicker
-            testID="startDateTimePicker"
+            testID="StartDatePicker"
             value={ startDate }
-            mode={ 'date' }
             is24Hour={ true }
             display="default"
-            onChange={ setStartDate }
-            style={{ width: 100 }}
+            onChange={ onChangeStart }
+            style={ tw.style('w-1/2') }
           />
           <DateTimePicker
-            testID="endDateTimePicker"
+            testID="EndDatePicker"
             value={ endDate }
-            mode={ 'date' }
             is24Hour={ true }
             display="default"
-            onChange={ setEndDate }
-            style={{ width: 100 }}
+            onChange={ onChangeEnd }
+            style={ tw.style('w-1/2') }
           />
         </View>
       )}

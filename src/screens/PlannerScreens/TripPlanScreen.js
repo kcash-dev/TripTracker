@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
     View,
     Text
@@ -13,9 +13,7 @@ const TripPlanScreen = ({ navigation }) => {
         style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'w-full') ]}
       >
         <Text style={[ { fontSize: 48 }, tw.style('text-center', 'my-10', 'text-white') ]}>Let's plan a trip</Text>
-        <TripInputs 
-          
-        />
+        <TripInputs />
       </View>
     );
 }

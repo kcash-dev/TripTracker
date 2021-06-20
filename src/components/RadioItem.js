@@ -1,19 +1,70 @@
 import  React, { useState, useContext } from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Text
+} from 'react-native'
 import { RadioButton } from 'react-native-paper';
+import { useEffect } from 'react/cjs/react.development';
 import tw from 'tailwind-react-native-classnames';
-import { TripContext } from '../context/TripContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { colors } from '../assets/Color';
 
-export const RadioItem = ({ firstItem, secondItem, tripDets, setDets }) => {
-  const [ value, setValue ] = useState();
+export const RadioItem = ({ tripDets, setDets }) => {
+  const [ value, setValue ] = useState("");
   const tripDetails = tripDets;
   const setDetails = (value) => {
     setDets(value)
   }
+  const [ selected, setSelected ] = useState(false);
+
+  console.log(tripDets)
+
+  const setDestination = (val) => {
+    setSelected(!selected);
+    setValue(val);
+  }
+
+  useEffect(() => {
+    setDetails({ ...tripDetails, inOrOut: value })
+  }, [ value ]);
 
   return (
-    <RadioButton.Group onValueChange={value => setDetails({...tripDetails, inOrOut: value})} value={value}>
-      <RadioButton.Item style={ tw.style('border-2', 'border-black', 'rounded-full', 'bg-white', 'mb-3', 'shadow-lg') } label={ firstItem } value={ firstItem } />
-      <RadioButton.Item style={ tw.style('border-2', 'border-black', 'rounded-full', 'bg-white', 'shadow-lg' )} label={ secondItem } value={ secondItem } />
-    </RadioButton.Group>
+    <View style={ tw.style('flex-1', 'w-full', 'flex-row', 'mb-10', 'justify-evenly') }>
+      { !selected ? 
+        <TouchableOpacity 
+          style={ tw.style('justify-center', 'items-center', 'w-1/3', 'h-36', 'shadow-lg', 'border', 'rounded-lg', 'bg-white') }
+          onPress={ () => setDestination("Domestic") }
+        >
+          <Text style={{ fontSize: 24 }}>Domestic</Text>
+          <MaterialCommunityIcons name="car-convertible" size={60} color="black" />
+        </TouchableOpacity>
+        :
+        <TouchableOpacity 
+          style={[ { backgroundColor: colors.popoutColor }, tw.style('justify-center', 'items-center', 'w-1/3', 'h-36', 'shadow-lg', 'border', 'rounded-lg') ]}
+          onPress={ () => setDestination("Domestic") }
+        >
+          <Text style={[ { fontSize: 24 }, tw.style('text-black') ]}>Domestic</Text>
+          <MaterialCommunityIcons name="car-convertible" size={60} color="black" />
+        </TouchableOpacity>
+      }
+      { selected ? 
+        <TouchableOpacity 
+          style={ tw.style('justify-center', 'items-center', 'w-1/3', 'h-36', 'shadow-lg', 'border', 'rounded-lg', 'bg-white') }
+          onPress={ () => setDestination("International") }
+        >
+          <Text style={{ fontSize: 24 }}>International</Text>
+          <MaterialCommunityIcons name="airplane-takeoff" size={60} color="black" />
+        </TouchableOpacity>
+      :
+        <TouchableOpacity 
+          style={[ { backgroundColor: colors.popoutColor }, tw.style('justify-center', 'items-center', 'w-1/3', 'h-36', 'shadow-lg', 'border', 'rounded-lg') ]}
+          onPress={ () => setDestination("International") }
+        >
+          <Text style={[ { fontSize: 24 }, tw.style('text-black') ]}>International</Text>
+          <MaterialCommunityIcons name="airplane-takeoff" size={60} color="black" />
+        </TouchableOpacity>
+    }
+    </View>
   );
 };

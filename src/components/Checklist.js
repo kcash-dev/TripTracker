@@ -75,7 +75,7 @@ export const CheckList = () => {
     )
 
     return (
-        <View style={ tw.style( 'w-3/4', 'h-2/5', 'mt-10', 'bg-white', 'rounded-lg', 'shadow-lg') }>
+        <View style={ tw.style( 'w-3/4', 'h-1/3', 'mt-10', 'bg-white', 'rounded-lg', 'shadow-lg') }>
             <FlatList 
                 data={ internationalThingsToDo }
                 renderItem={ renderItem }
