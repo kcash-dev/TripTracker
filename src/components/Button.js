@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import { colors } from '../assets/Color';
 import tw from 'tailwind-react-native-classnames';
 
-export const ButtonComp = ({ callback, title, }) => {
+export const ButtonComp = ({ callback, title }) => {
 
     const useCallback = () => {
         callback();
@@ -15,10 +15,10 @@ export const ButtonComp = ({ callback, title, }) => {
             onPress={ useCallback }
             style={[ 
                 { backgroundColor: colors.popoutColor },
-                // tw.style('rounded-md', 'h-12', 'w-1/2', 'justify-center', 'items-center', 'shadow-lg') 
+                tw.style('rounded-lg', 'h-12', 'justify-center', 'items-center', 'shadow-lg') 
             ]}
         >
-            <Text>{ title }</Text>
+            <Text style={ tw.style('text-white') }>{ title }</Text>
         </Button>
     )
 }

@@ -1,7 +1,7 @@
 export const colors = {
-    primaryColor: '#A09EBB',
-    secondaryColor: '#A8AEC1',
-    popoutColor: '#A6FFA1',
-    thirdColor: '#B5D2CB',
-    fourthColor: '#BFFFBC'
+    primaryColor: '#FBF5F3',
+    secondaryColor: '#8DAA9D',
+    popoutColor: '#7B0828',
+    thirdColor: '#522B47',
+    fourthColor: '#0F0E0E'
 }

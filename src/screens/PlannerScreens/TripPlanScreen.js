@@ -12,7 +12,7 @@ const TripPlanScreen = ({ navigation }) => {
       <View 
         style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'w-full') ]}
       >
-        <Text style={[ { fontSize: 48 }, tw.style('text-center', 'my-10', 'text-white') ]}>Let's plan a trip</Text>
+        <Text style={[ { fontSize: 48, color: colors.thirdColor }, tw.style('text-center', 'my-10') ]}>Let's plan a trip</Text>
         <TripInputs />
       </View>
     );

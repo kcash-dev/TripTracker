@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, 
-  Button, 
+  View,
   Platform,
-  TouchableOpacity,
   Text
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import tw from 'tailwind-react-native-classnames';
 import moment from "moment";
+import { ButtonComp } from './Button';
+import Slider from '@react-native-community/slider';
+import { colors } from '../assets/Color';
+import { DateSelector } from '../components/DateSelector';
 
 export const TripDateRangePicker = ({ tripDets, setDets }) => {
   const [ startDate, setStartDate ] = useState(new Date());
   const [ endDate, setEndDate ] = useState(new Date());
+  const [ numberOfDays, setNumberOfDays ] = useState(1);
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
@@ -22,24 +25,26 @@ export const TripDateRangePicker = ({ tripDets, setDets }) => {
     setDets(value)
   }
 
-  console.log(moment(startDate).format('MMMM Do YYYY'));
-  console.log(moment(endDate).format('MMMM Do YYYY'));
-
   const onChangeStart = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === 'ios');
     setStartDate(currentDate);
   };
 
+  const onSlide = (value => {
+    setNumberOfDays(value)
+  })
+
+  console.log(numberOfDays);
+
   useEffect(() => {
       const fixedDetail = moment(startDate).format()
-      setDetails({ ...tripDetails, startDate: fixedDetail })
+      setDetails({ ...tripDetails, startDate: fixedDetail, numberOfDays: numberOfDays })
   }, [ startDate ]);
 
   useEffect(() => {
-    const fixedDetail = moment(endDate).format()
-    setDetails({ ...tripDetails, endDate: fixedDetail })
-  }, [ endDate ]);
+    setDetails({ ...tripDetails, numberOfDays: numberOfDays })
+}, [ numberOfDays ]);
 
   const onChangeEnd = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -48,32 +53,26 @@ export const TripDateRangePicker = ({ tripDets, setDets }) => {
   };
 
   return (
-    <View>
-      <View style={ tw.style('items-center') }>
-        <TouchableOpacity 
-          onPress={ () => setShow(!show) } 
-          style={ tw.style('bg-white', 'mb-5', 'border-2', 'border-black', 'rounded-full', 'shadow-lg' ) }
-        >
-          <Text style={ tw.style('p-3', 'text-center') }>Select date</Text>
-        </TouchableOpacity>
+    <View style={ tw.style('w-full')}>
+      <View style={ tw.style('items-center', 'mb-5') }>
+        <ButtonComp 
+          callback={ () => setShow(!show) }
+          title="Pick Start Date"
+        />
       </View>
       {show && (
-        <View style={ tw.style('flex-row', 'w-2/3', 'mb-5') }>
-          <DateTimePicker
-            testID="StartDatePicker"
-            value={ startDate }
-            is24Hour={ true }
-            display="default"
-            onChange={ onChangeStart }
-            style={ tw.style('w-1/2') }
-          />
-          <DateTimePicker
-            testID="EndDatePicker"
-            value={ endDate }
-            is24Hour={ true }
-            display="default"
-            onChange={ onChangeEnd }
-            style={ tw.style('w-1/2') }
+        <View style={ tw.style('flex', 'mb-2', 'w-full') }>
+          <DateSelector />
+          <Text style={ tw.style('text-center') }>Length of Trip</Text>
+          <Text style={ tw.style('text-center', 'font-bold') }>{ numberOfDays } days</Text>
+          <Slider
+            style={ tw.style('w-5/6', 'self-center') }
+            step={ 1 }
+            minimumValue={ 1 }
+            maximumValue={ 30 }
+            minimumTrackTintColor={ colors.secondaryColor }
+            maximumTrackTintColor={ colors.popoutColor }
+            onValueChange={ value => onSlide(value) }
           />
         </View>
       )}

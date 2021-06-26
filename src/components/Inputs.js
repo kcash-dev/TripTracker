@@ -7,6 +7,9 @@ import {
 } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from '@react-navigation/native';
+import { DropDownPicker } from './DropdownPicker';
+
+// Own Components
 import { ButtonComp } from '../components/Button';
 import { RadioItem } from '../components/RadioItem';
 import { TripContext } from '../context/TripContext';
@@ -123,13 +126,16 @@ export const TripInputs = ({ callback }) => {
                 tripDets={ tripDetails } 
                 setDets={ getDates }
             />
-            <TextInput 
-                style={ tw.style('w-5/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
-                label="Enter Trip Cost"
-                value={ tripDetails.cost }
-                clearButtonMode="always"
-                onChangeText={ text => setTripDetails({ ...tripDetails, cost: text }) }
-            />
+            <View style={ tw.style('flex-row', 'w-full') }>
+                <DropDownPicker />
+                <TextInput 
+                    style={ tw.style('w-1/2', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
+                    label="Enter Trip Cost"
+                    value={ tripDetails.cost }
+                    clearButtonMode="always"
+                    onChangeText={ text => setTripDetails({ ...tripDetails, cost: text }) }
+                />
+            </View>
             <TextInput 
                 style={ tw.style('w-5/6', 'bg-white', 'rounded-md', 'mb-4', 'h-52', 'shadow-lg') }
                 label="Enter Trip Details"

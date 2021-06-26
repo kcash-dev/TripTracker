@@ -11,7 +11,8 @@ const TripProvider = (props) => {
         date: '',
         cost: '',
         startDate: '',
-        endDate: ''
+        endDate: '',
+        numberOfDays: 0
     });
     
     return (
