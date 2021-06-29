@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,15 @@ import { ExpenseInput, DailyBudgetInput } from '../../components/Inputs';
 import tw from 'tailwind-react-native-classnames';
 
 // Components
-import { ExpensesBox } from '../../components/ExpensesBox';
 import { DayBudget } from '../../components/DayBudget';
 import { TripContext } from '../../context/TripContext';
+import { CheckList } from '../../components/Checklist';
+
+const data = [
+  
+]
 
 const HomeScreen = ({ navigation }) => {
-  const [ state, setState ] = useState({
-    expenses: []
-  });
 
   const [ trip, setTrip ] = useContext(TripContext);
 
@@ -32,13 +33,17 @@ const HomeScreen = ({ navigation }) => {
           <Text>Welcome! You don't have a trip planned yet, but we have a feeling that's about to change.</Text>
         </View>
         :
+        <View>
         <View style={ tw.style('w-3/4') }>
           <DayBudget />
         </View>
+        <View style={ tw.style('w-full', 'items-center') }>
+          <CheckList 
+            data={ data }
+          />
+        </View>
+        </View>
       }
-      <ExpensesBox 
-        expenses = { state.expenses }
-      />
     </View>
   );
 }

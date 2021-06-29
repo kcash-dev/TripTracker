@@ -9,54 +9,6 @@ import {
 
 import tw from 'tailwind-react-native-classnames';
 
-internationalThingsToDo = [
-    {
-        toDo: "Get passport"
-    },
-    {
-        toDo: "Apply for visa from destination country"
-    },
-    {
-        toDo: "Find and book a flight"
-    },
-    {
-        toDo: "Get any required vaccinations"
-    },
-    {
-        toDo: "Find and book accommodation"
-    },
-    {
-        toDo: "Pack"
-    },
-    {
-        toDo: "Look up things to do in your destination country"
-    },
-    {
-        toDo: "Learn some basic phrases in the local language"
-    },
-    {
-        toDo: "Enjoy your trip!"
-    }
-];
-
-domesticThingsToDo = [
-    {
-        toDo: "Find and book a flight"
-    },
-    {
-        toDo: "Find and book accommodation"
-    },
-    {
-        toDo: "Look up things to do in your destination"
-    },
-    {
-        toDo: "Pack"
-    },
-    {
-        toDo: "Enjoy your trip!"
-    }
-]
-
 const Item = ({ toDo }) => (
     <View style={ tw.style('flex-1', 'flex-row', 'items-center', 'my-5', 'mx-3') }>
         <TouchableOpacity>
@@ -69,15 +21,17 @@ const Item = ({ toDo }) => (
     </View>
 )
 
-export const CheckList = () => {
+export const CheckList = ({ data }) => {
     const renderItem = ({ item }) => (
         <Item toDo={ item.toDo }/>
     )
 
+    const dataToUse = data;
+
     return (
         <View style={ tw.style( 'w-3/4', 'h-1/3', 'mt-10', 'bg-white', 'rounded-lg', 'shadow-lg') }>
             <FlatList 
-                data={ internationalThingsToDo }
+                data={ dataToUse }
                 renderItem={ renderItem }
                 keyExtractor={ item => item.toDo }
             />

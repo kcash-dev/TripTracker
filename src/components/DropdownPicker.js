@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import {
   Dropdown
@@ -7,76 +7,85 @@ import tw from 'tailwind-react-native-classnames';
 
 export const currencies = [
     {
-      value: 'USD',
-      label: 'United States Dollar',
-      icon: '$',
+      value: '$',
+      label: 'USD',
+      icon: '',
     },
     {
-      value: 'GBP',
-      label: 'Pounds Sterling',
-      icon: '£'
+      value: '£',
+      label: ' GBP',
+      icon: ''
     },
     {
-      value: 'EUR',
-      label: 'Euro',
-      icon: '€',
+      value: '€',
+      label: 'EUR',
+      icon: '',
     },
     {
-      value: 'JPY',
-      label: 'Japanese Yen',
-      icon: '¥'
+      value: '¥',
+      label: 'JPY',
+      icon: ''
     },
     {
-        value: 'CNY',
-        label: 'Chinese Yuan',
-        icon: '¥'
+        value: '¥',
+        label: 'CNY',
+        icon: ''
     },
     {
-        value: 'AUD',
-        label: 'Australian Dollars',
-        icon: '$'
+        value: '$',
+        label: 'AUD',
+        icon: ''
     },
     {
-        value: 'CAD',
-        label: 'Canadian Dollars',
-        icon: '$'
+        value: '$',
+        label: 'CAD',
+        icon: ''
     },
     {
-        value: 'INR',
-        label: 'Indian Rupee',
-        icon: '₹'
+        value: '₹',
+        label: 'INR',
+        icon: ''
     },
     {
-        value: 'MXN',
-        label: 'Mexican Peso',
-        icon: '$'
+        value: '$',
+        label: 'MXN',
+        icon: ''
     },
     {
-        value: 'THB',
-        label: 'Thai Baht',
-        icon: '฿'
+        value: '฿',
+        label: ' THB',
+        icon: ''
     }
   ];
 
-export const DropDownPicker = () => {
-    const [valueSS, setValueSS] = useState('');
-    const onChangeSS = (value) => setValueSS(value.icon)
+export const DropDownPicker = ({ setDets, tripDets }) => {
+    const [ valueSS, setValueSS ] = useState('');
+    const onChangeSS = (value) => setValueSS(value);
+
+    const sendCurrency = (value) => {
+      setDets(value)
+    };
+
+    useEffect(() => {
+      sendCurrency(valueSS);
+    }, [valueSS]);
   
     return (
       <View
-        style={{
+        style={[{
           flexDirection: 'column',
           height: '100%',
-        }}
+        }, tw.style('items-center')]}
       >
         <ScrollView>
-          <View style={ tw.style('w-40', 'flex-1') }>
+          <View style={ tw.style('w-24', 'flex-1', 'mb-4', 'items-center') }>
             <Dropdown
               label="$"
               data={ currencies }
               enableSearch
               value={valueSS}
-              onChange={onChangeSS}
+              onChange={ onChangeSS }
+              style={ tw.style('bg-white')}
             />
           </View>
         </ScrollView>

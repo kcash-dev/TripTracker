@@ -6,13 +6,13 @@ const TripProvider = (props) => {
     const [ trip, setTrip ] = useState({
         isTrip: false,
         name: '',
-        destination: '',
         details: '',
         date: '',
         cost: '',
         startDate: '',
         endDate: '',
-        numberOfDays: 0
+        numberOfDays: 0,
+        currency: ''
     });
     
     return (

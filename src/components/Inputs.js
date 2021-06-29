@@ -3,7 +3,8 @@ import { TextInput } from 'react-native-paper';
 import { 
     View,
     Text,
-    ScrollView 
+    ScrollView,
+    TouchableOpacity 
 } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from '@react-navigation/native';
@@ -65,14 +66,6 @@ export const DailyBudgetInput = ({ callback, hiddenBudget, navigation }) => {
                 clearButtonMode="always"
                 onChangeText={ text => setDailyBudget(text) }
             />
-            {/* <Button
-                onPress={ sendBudget }
-                style={ 
-                { backgroundColor: colors.popoutColor } }
-                // tw.style('rounded-md', 'h-12', 'w-1/2', 'justify-center', 'items-center', 'shadow-lg') ]}
-            >
-                <Text>Enter</Text>
-            </Button> */}
             <ButtonComp 
                 callback={ sendBudget }
                 title="Enter Budget"
@@ -85,13 +78,13 @@ export const TripInputs = ({ callback }) => {
     const [ trip, setTrip ] = useContext(TripContext);
     const [ tripDetails, setTripDetails ] = useState({
         name: '',
-        destination: '',
         details: '',
         cost: '',
         isTrip: false,
-        inOrOut: '',
+        inOrOut: 'International',
         startDate: '',
-        endDate: ''
+        currency: '',
+        numberOfDays: 1
     })
 
     const navigation = useNavigation();
@@ -103,8 +96,16 @@ export const TripInputs = ({ callback }) => {
     }
 
     const getDates = (value) => {
-        setTripDetails(value);
-    } 
+        setTripDetails({ ...tripDetails, startDate: value });
+    }
+
+    const getLength = (value) => {
+        setTripDetails(value)
+    }
+
+    const getCurrency = (value) => {
+        setTripDetails({ ...tripDetails, currency: value });
+    }
 
     return (
         <ScrollView 
@@ -125,11 +126,24 @@ export const TripInputs = ({ callback }) => {
             <TripDateRangePicker
                 tripDets={ tripDetails } 
                 setDets={ getDates }
+                setLeng={ getLength }
             />
-            <View style={ tw.style('flex-row', 'w-full') }>
-                <DropDownPicker />
+            <View style={ tw.style('flex-row', 'w-full', 'justify-center') }>
+                { tripDetails.currency ?
+                    <TouchableOpacity 
+                        onPress={ () => setTripDetails(tripDetails.currency = '') }
+                        style={ tw.style('justify-center', 'w-1/6', 'h-16', 'items-center', 'rounded-lg', 'border-2', 'bg-white', 'mr-3') }
+                    >
+                        <Text style={ tw.style('font-bold', 'self-center', 'rounded-lg', 'text-2xl')}>{ tripDetails.currency }</Text>
+                    </TouchableOpacity>
+                :
+                    <DropDownPicker 
+                        tripDets={ tripDetails }
+                        setDets={ getCurrency }
+                    />
+                }
                 <TextInput 
-                    style={ tw.style('w-1/2', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
+                    style={ tw.style('w-1/2', 'bg-white', 'rounded-md', 'mb-4', 'shadow-lg') }
                     label="Enter Trip Cost"
                     value={ tripDetails.cost }
                     clearButtonMode="always"

@@ -12,11 +12,58 @@ import { TripContext } from '../../context/TripContext';
 import { CheckList } from '../../components/Checklist';
 import moment from 'moment';
 
+internationalThingsToDo = [
+  {
+      toDo: "Get passport"
+  },
+  {
+      toDo: "Apply for visa from destination country"
+  },
+  {
+      toDo: "Find and book a flight"
+  },
+  {
+      toDo: "Get any required vaccinations"
+  },
+  {
+      toDo: "Find and book accommodation"
+  },
+  {
+      toDo: "Pack"
+  },
+  {
+      toDo: "Look up things to do in your destination country"
+  },
+  {
+      toDo: "Learn some basic phrases in the local language"
+  },
+  {
+      toDo: "Enjoy your trip!"
+  }
+];
+
+domesticThingsToDo = [
+  {
+      toDo: "Find and book a flight"
+  },
+  {
+      toDo: "Find and book accommodation"
+  },
+  {
+      toDo: "Look up things to do in your destination"
+  },
+  {
+      toDo: "Pack"
+  },
+  {
+      toDo: "Enjoy your trip!"
+  }
+]
+
 const PlannerScreen = ({ navigation }) => {
     const [ trip, setTrip ] = useContext(TripContext);
-
     const formattedStartDate = moment(trip.startDate).format("MMMM Do YYYY");
-    const formattedEndDate = moment(trip.endDate).format("MMMM Do YYYY")
+    const formattedEndDate = moment(trip.startDate).add(trip.numberOfDays, 'days').format("MMMM Do YYYY");
 
     console.log(trip);
 
@@ -35,26 +82,30 @@ const PlannerScreen = ({ navigation }) => {
             :
             <View>
               <View>
-                <Text style={[ { fontSize: 48 }, tw.style('text-center', 'text-white', 'my-10') ]}>{ trip.name }</Text>
+                <Text style={[ { fontSize: 48, color: colors.fourthColor }, tw.style('text-center', 'my-10') ]}>{ trip.name }</Text>
               </View>
-              <View>
-                <Text style={[ { fontSize: 34 }, tw.style('text-center', 'text-white', 'font-bold') ]}>Destination</Text>
-                <Text style={[ { fontSize: 32 },  tw.style('text-center', 'text-white') ]}>{ trip.destination }</Text>
-              </View>
-              <Text style={[ { fontSize: 30 }, tw.style('text-center', 'text-white', 'font-bold') ]}>Dates</Text>
+              <Text style={[ { fontSize: 30 }, tw.style('text-center', 'font-bold') ]}>Dates</Text>
               <View style={ tw.style('flex-row', 'justify-center', 'my-3') }>
-                <Text style={[ { fontSize: 18 },  tw.style('text-center', 'text-white') ]}>{ formattedStartDate } - </Text>
-                <Text style={[ { fontSize: 18 },  tw.style('text-center', 'text-white') ]}>{ formattedEndDate }</Text>
+                <Text style={[ { fontSize: 18, color: colors.fourthColor },  tw.style('text-center') ]}>{ formattedStartDate } - </Text>
+                <Text style={[ { fontSize: 18, color: colors.fourthColor },  tw.style('text-center') ]}>{ formattedEndDate }</Text>
               </View>
-              <Text style={[ { fontSize: 30 }, tw.style('text-center', 'text-white', 'font-bold', 'mt-5') ]}>Cost</Text>
+              <Text style={[ { fontSize: 30, color: colors.fourthColor }, tw.style('text-center', 'font-bold', 'mt-5') ]}>Trip Cost</Text>
               <View>
-                <Text style={[ { fontSize: 44 }, tw.style('text-center', 'text-white') ]}>{ trip.cost }</Text>
+                <Text style={[ { fontSize: 44, color: colors.fourthColor }, tw.style('text-center') ]}>{ trip.currency }{ trip.cost }</Text>
               </View>
-              <Text style={[ { fontSize: 30 }, tw.style('text-center', 'text-white', 'font-bold', 'mt-5') ]}>Trip Notes</Text>
+              <Text style={[ { fontSize: 30, color: colors.fourthColor }, tw.style('text-center', 'font-bold', 'mt-5') ]}>Trip Notes</Text>
               <View style={ tw.style('bg-white', 'w-3/4', 'self-center', 'rounded-md', 'mt-3', 'shadow-lg') }>
-                <Text style={[ { fontSize: 24 }, tw.style('text-center', 'p-5') ]}>{ trip.details }</Text>
+                <Text style={[ { fontSize: 24, color: colors.fourthColor }, tw.style('text-center', 'p-5') ]}>{ trip.details }</Text>
               </View>
-              <CheckList />
+              { trip.inOrOut === 'International' ?
+                <CheckList 
+                  data={ internationalThingsToDo }
+                />
+              :
+                <CheckList 
+                  data={ domesticThingsToDo }
+                />
+              }
             </View>
         }
       </View>
