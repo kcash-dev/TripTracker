@@ -5,7 +5,7 @@ import {
   StyleSheet
 } from 'react-native';
 import { colors } from '../../assets/Color';
-import { ExpenseInput, DailyBudgetInput } from '../../components/Inputs';
+import { ExpenseInput } from '../../components/Inputs';
 import tw from 'tailwind-react-native-classnames';
 
 // Components
@@ -22,27 +22,37 @@ const HomeScreen = ({ navigation }) => {
   const [ trip, setTrip ] = useContext(TripContext);
 
   const isTrip = trip.isTrip;
-  console.log(isTrip)
+
+  const addExpense = (expense) => {
+    data.push(expense)
+  }
+
+  console.log(data);
 
   return (
     <View 
-      style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'justify-center', 'items-center') ]}
+      style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'items-center', 'top-36') ]}
     >
       { !isTrip ?
         <View style={ tw.style('w-3/4', 'items-center', 'justify-center')}>
           <Text>Welcome! You don't have a trip planned yet, but we have a feeling that's about to change.</Text>
         </View>
         :
-        <View>
         <View style={ tw.style('w-3/4') }>
           <DayBudget />
         </View>
-        <View style={ tw.style('w-full', 'items-center') }>
+      }
+      { isTrip ?
+        <View style={ tw.style( 'w-full', 'h-full', 'self-center') }>
+          <ExpenseInput 
+            addExp={ addExpense }
+          />
           <CheckList 
             data={ data }
           />
         </View>
-        </View>
+        :
+        null
       }
     </View>
   );

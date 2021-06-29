@@ -16,60 +16,43 @@ import { RadioItem } from '../components/RadioItem';
 import { TripContext } from '../context/TripContext';
 import { TripDateRangePicker } from './TripRangePicker';
 
-export const ExpenseInput = ({ callback }) => {
+export const ExpenseInput = ({ addExp }) => {
     const [ state, setState ] = useState({
-            expenseName: '',
-            expenseAmount: ''
-        });
+        expenseName: '',
+        expenseAmount: ''
+    });
+
+    const [ trip, setTrip ] = useContext(TripContext);
 
     const sendExpense = () => {
-        callback(state);
+        addExp(state);
     }
     
     return (
-        <View style={ tw.style('items-center', 'justify-center')}>
-            <TextInput 
-                style={ tw.style('w-full', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
-                label="Enter Expense Name"
-                value={ state.expenseName }
-                clearButtonMode="always"
-                onChangeText={ text => setState({ ...state, expenseName: text }) }
-            />
-            <TextInput 
-                style={ tw.style('w-full', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
-                label="Enter Expense Amount"
-                value={ state.expenseAmount }
-                clearButtonMode="always"
-                onChangeText={ text => setState({ ...state, expenseAmount: text }) }
-            />
-            <ButtonComp 
-                callback={ sendExpense }
-                title="Enter Expense"
-            />
-        </View>
-    )
-}
-
-export const DailyBudgetInput = ({ callback, hiddenBudget, navigation }) => {
-    const [ dailyBudget, setDailyBudget ] = useState(0);
-
-    const sendBudget = () => {
-        callback(dailyBudget);
-    }
-    
-    return (
-        <View style={ tw.style('items-center')}>
-            <TextInput 
-                style={ tw.style('w-full', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg') }
-                label="Enter Daily Budget"
-                value={ dailyBudget }
-                clearButtonMode="always"
-                onChangeText={ text => setDailyBudget(text) }
-            />
-            <ButtonComp 
-                callback={ sendBudget }
-                title="Enter Budget"
-            />
+        <View>
+            <View style={ tw.style('items-center', 'justify-center', 'flex-row')}>
+                <TextInput 
+                    style={ tw.style('w-2/5', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg', 'mx-4') }
+                    label="Expense"
+                    value={ state.expenseName }
+                    clearButtonMode="always"
+                    onChangeText={ text => setState({ ...state, expenseName: text }) }
+                />
+                <Text style={{ fontSize: 22, marginTop: -16 }}>{ trip.currency }</Text>
+                <TextInput 
+                    style={ tw.style('w-2/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg', 'mx-4') }
+                    label="Amount"
+                    value={ state.expenseAmount }
+                    clearButtonMode="always"
+                    onChangeText={ text => setState({ ...state, expenseAmount: text }) }
+                />
+            </View>
+            <View style={ tw.style('w-1/3', 'p-2', 'self-center') }>
+                <ButtonComp
+                    callback={ sendExpense } 
+                    title="Enter"
+                />
+            </View>
         </View>
     )
 }

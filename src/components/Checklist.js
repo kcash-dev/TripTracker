@@ -29,7 +29,7 @@ export const CheckList = ({ data }) => {
     const dataToUse = data;
 
     return (
-        <View style={ tw.style( 'w-3/4', 'h-1/3', 'mt-10', 'bg-white', 'rounded-lg', 'shadow-lg') }>
+        <View style={ tw.style( 'w-3/4', 'h-1/3', 'mt-10', 'bg-white', 'rounded-lg', 'shadow-lg', 'self-center') }>
             <FlatList 
                 data={ dataToUse }
                 renderItem={ renderItem }
