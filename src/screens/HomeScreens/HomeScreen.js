@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Dimensions,
+  ImageBackground
 } from 'react-native';
 import { colors } from '../../assets/Color';
 import { ExpenseInput } from '../../components/Inputs';
@@ -13,42 +15,49 @@ import { DayBudget } from '../../components/DayBudget';
 import { TripContext } from '../../context/TripContext';
 import { CheckList } from '../../components/Checklist';
 
-const data = [
-  
-]
+const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
+
+const image = { uri: 'https://i.imgur.com/Xgyoy53.jpg' };
 
 const HomeScreen = ({ navigation }) => {
-
   const [ trip, setTrip ] = useContext(TripContext);
+
+  const [ refresh, setRefresh ] = useState(false);
 
   const isTrip = trip.isTrip;
 
   const addExpense = (expense) => {
-    data.push(expense)
+    setTrip({ ...trip, expenses: expense})
+    setRefresh(!refresh)
   }
 
-  console.log(data);
+  const expenses = [trip.expenses];
+
 
   return (
     <View 
-      style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'items-center', 'top-36') ]}
+      style={[ { backgroundColor: colors.primaryColor, height: screenHeight, width: screenWidth }, tw.style( 'items-center') ]}
     >
       { !isTrip ?
-        <View style={ tw.style('w-3/4', 'items-center', 'justify-center')}>
-          <Text>Welcome! You don't have a trip planned yet, but we have a feeling that's about to change.</Text>
-        </View>
+        <ImageBackground source={ image } style ={{ resizeMode: 'cover' }, tw.style('flex-1', 'opacity-80') }>
+          <View style={ tw.style( 'items-center', 'justify-center')}>
+            <Text style={ tw.style('text-center', 'mt-40', 'mx-10', 'text-xl') }>Welcome! You don't have a trip planned yet, but we have a feeling that's about to change.</Text>
+          </View>
+        </ImageBackground>
         :
         <View style={ tw.style('w-3/4') }>
           <DayBudget />
         </View>
       }
       { isTrip ?
-        <View style={ tw.style( 'w-full', 'h-full', 'self-center') }>
+        <View style={ tw.style( 'w-full', 'self-center') }>
           <ExpenseInput 
             addExp={ addExpense }
+            refreshState={ refresh }
           />
           <CheckList 
-            data={ data }
+            data={ expenses }
+            refresh={ refresh }
           />
         </View>
         :

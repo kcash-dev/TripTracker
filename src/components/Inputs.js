@@ -17,39 +17,40 @@ import { TripContext } from '../context/TripContext';
 import { TripDateRangePicker } from './TripRangePicker';
 
 export const ExpenseInput = ({ addExp }) => {
-    const [ state, setState ] = useState({
-        expenseName: '',
-        expenseAmount: ''
-    });
+    const [ expense, setExpense ] = useState([]);
 
     const [ trip, setTrip ] = useContext(TripContext);
 
-    const sendExpense = () => {
-        addExp(state);
+    const currency = trip.currency;
+
+    console.log(currency);
+
+    const sendExpenses = () => {
+        addExp(expense)
     }
-    
+
     return (
         <View>
             <View style={ tw.style('items-center', 'justify-center', 'flex-row')}>
                 <TextInput 
                     style={ tw.style('w-2/5', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg', 'mx-4') }
                     label="Expense"
-                    value={ state.expenseName }
+                    value={ expense.name }
                     clearButtonMode="always"
-                    onChangeText={ text => setState({ ...state, expenseName: text }) }
+                    onChangeText={ text => setExpense({ ...expense, name: text }) }
                 />
                 <Text style={{ fontSize: 22, marginTop: -16 }}>{ trip.currency }</Text>
                 <TextInput 
                     style={ tw.style('w-2/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg', 'mx-4') }
                     label="Amount"
-                    value={ state.expenseAmount }
+                    value={ expense.extraInfo }
                     clearButtonMode="always"
-                    onChangeText={ text => setState({ ...state, expenseAmount: text }) }
+                    onChangeText={ text => setExpense({ ...expense, extraInfo: text }) }
                 />
             </View>
             <View style={ tw.style('w-1/3', 'p-2', 'self-center') }>
                 <ButtonComp
-                    callback={ sendExpense } 
+                    callback={ sendExpenses }
                     title="Enter"
                 />
             </View>
@@ -57,7 +58,7 @@ export const ExpenseInput = ({ addExp }) => {
     )
 }
 
-export const TripInputs = ({ callback }) => {
+export const TripInputs = () => {
     const [ trip, setTrip ] = useContext(TripContext);
     const [ tripDetails, setTripDetails ] = useState({
         name: '',
@@ -66,7 +67,7 @@ export const TripInputs = ({ callback }) => {
         isTrip: false,
         inOrOut: 'International',
         startDate: '',
-        currency: '',
+        currency: '$',
         numberOfDays: 1
     })
 

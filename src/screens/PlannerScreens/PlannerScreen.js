@@ -3,7 +3,9 @@ import {
     View, 
     Button, 
     StyleSheet,
-    Text 
+    Text,
+    Dimensions,
+    ScrollView 
 } from 'react-native';
 import { colors } from '../../assets/Color';
 import tw from 'tailwind-react-native-classnames';
@@ -12,51 +14,67 @@ import { TripContext } from '../../context/TripContext';
 import { CheckList } from '../../components/Checklist';
 import moment from 'moment';
 
+const { height: screenHeight } = Dimensions.get('window');
+
 internationalThingsToDo = [
   {
-      toDo: "Get passport"
+      name: "Get passport",
+      extraInfo: ''
   },
   {
-      toDo: "Apply for visa from destination country"
+      name: "Apply for visa from destination country",
+      extraInfo: ''
   },
   {
-      toDo: "Find and book a flight"
+      name: "Find and book a flight",
+      extraInfo: ''
   },
   {
-      toDo: "Get any required vaccinations"
+      name: "Get any required vaccinations",
+      extraInfo: ''
   },
   {
-      toDo: "Find and book accommodation"
+      name: "Find and book accommodation",
+      extraInfo: ''
   },
   {
-      toDo: "Pack"
+      name: "Pack",
+      extraInfo: ''
   },
   {
-      toDo: "Look up things to do in your destination country"
+      name: "Look up things to do in your destination country",
+      extraInfo: ''
   },
   {
-      toDo: "Learn some basic phrases in the local language"
+      name: "Learn some basic phrases in the local language",
+      extraInfo: ''
   },
   {
-      toDo: "Enjoy your trip!"
+      name: "Enjoy your trip!",
+      extraInfo: ''
   }
 ];
 
 domesticThingsToDo = [
   {
-      toDo: "Find and book a flight"
+      name: "Find and book a flight",
+      extraInfo: ''
   },
   {
-      toDo: "Find and book accommodation"
+      name: "Find and book accommodation",
+      extraInfo: ''
   },
   {
-      toDo: "Look up things to do in your destination"
+      name: "Look up things to do in your destination",
+      extraInfo: ''
   },
   {
-      toDo: "Pack"
+      name: "Pack",
+      extraInfo: ''
   },
   {
-      toDo: "Enjoy your trip!"
+      name: "Enjoy your trip!",
+      extraInfo: ''
   }
 ]
 
@@ -65,22 +83,20 @@ const PlannerScreen = ({ navigation }) => {
     const formattedStartDate = moment(trip.startDate).format("MMMM Do YYYY");
     const formattedEndDate = moment(trip.startDate).add(trip.numberOfDays, 'days').format("MMMM Do YYYY");
 
-    console.log(trip);
-
     return (
       <View 
-        style={[ { backgroundColor: colors.primaryColor }, tw.style('flex-1', 'items-center') ]}
+        style={[ { backgroundColor: colors.primaryColor, height: screenHeight }, tw.style( 'items-center') ]}
       >
         { !trip.isTrip ?
             <View style={ tw.style('w-1/2', 'justify-center', 'flex-1')}>
-                <Text style={ tw.style('m-10', 'text-center')}>You don't have a trip planned yet! Let's get to planning one.</Text>
+                <Text style={ tw.style('mb-10', 'text-center', 'text-lg')}>You don't have a trip planned yet! Let's get to planning one.</Text>
                 <ButtonComp 
                     title="Start Trip"
                     callback={ () => navigation.navigate('Trip Planner') }
                 />
             </View>
             :
-            <View>
+            <ScrollView>
               <View>
                 <Text style={[ { fontSize: 48, color: colors.fourthColor }, tw.style('text-center', 'my-10') ]}>{ trip.name }</Text>
               </View>
@@ -106,7 +122,7 @@ const PlannerScreen = ({ navigation }) => {
                   data={ domesticThingsToDo }
                 />
               }
-            </View>
+            </ScrollView>
         }
       </View>
     );

@@ -12,7 +12,8 @@ const TripProvider = (props) => {
         startDate: '',
         endDate: '',
         numberOfDays: 0,
-        currency: ''
+        currency: '$',
+        expenses: ''
     });
     
     return (

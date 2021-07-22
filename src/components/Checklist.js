@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { 
     View, 
     Text, 
@@ -9,7 +9,7 @@ import {
 
 import tw from 'tailwind-react-native-classnames';
 
-const Item = ({ toDo }) => (
+const Item = ({ itemName, extraInfo, currency }) => (
     <View style={ tw.style('flex-1', 'flex-row', 'items-center', 'my-5', 'mx-3') }>
         <TouchableOpacity>
             <Image 
@@ -17,23 +17,33 @@ const Item = ({ toDo }) => (
                 style={[ { width: 25, height: 25 }, tw.style() ]}
             />
         </TouchableOpacity>
-        <Text style={[ { fontSize: 20 }, tw.style('mx-5') ]}>{ toDo }</Text>
+        <Text style={[ { fontSize: 20 }, tw.style('mx-5') ]}>{ itemName }</Text>
+        <Text style={[ { fontSize: 20 }, tw.style('mx-5') ]}>{ extraInfo }</Text>
     </View>
 )
 
-export const CheckList = ({ data }) => {
+export const CheckList = ({ data, refreshState }) => {
     const renderItem = ({ item }) => (
-        <Item toDo={ item.toDo }/>
+        <Item 
+            itemName={ item.name }
+            extraInfo={ item.extraInfo }
+        />
     )
 
+    
+    const refresh = refreshState;
     const dataToUse = data;
+
+    console.log(dataToUse)
+
 
     return (
         <View style={ tw.style( 'w-3/4', 'h-1/3', 'mt-10', 'bg-white', 'rounded-lg', 'shadow-lg', 'self-center') }>
             <FlatList 
                 data={ dataToUse }
                 renderItem={ renderItem }
-                keyExtractor={ item => item.toDo }
+                keyExtractor={ item => item.name }
+                extraData={ refresh }
             />
         </View>
     )

@@ -11,7 +11,6 @@ import { TripContext } from '../context/TripContext';
 
 export const DayBudget = ({ budget }) => {
     const [ trip, setTrip] = useContext(TripContext);
-    console.log(trip);
 
     const startDate = moment(trip.startDate)
     const now = moment();
@@ -24,6 +23,7 @@ export const DayBudget = ({ budget }) => {
 
     const dailyBudget = tripCost / diffInDays;
     finalBudget = dailyBudget.toFixed(2);
+    console.log(startDate)
 
 
     return (
