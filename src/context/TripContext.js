@@ -8,12 +8,12 @@ const TripProvider = (props) => {
         name: '',
         details: '',
         date: '',
-        cost: '',
+        cost: 0,
         startDate: '',
         endDate: '',
         numberOfDays: 0,
         currency: '$',
-        expenses: ''
+        expenses: []
     });
     
     return (

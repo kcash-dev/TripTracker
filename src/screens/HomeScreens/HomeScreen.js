@@ -14,10 +14,13 @@ import tw from 'tailwind-react-native-classnames';
 import { DayBudget } from '../../components/DayBudget';
 import { TripContext } from '../../context/TripContext';
 import { CheckList } from '../../components/Checklist';
+import { useEffect } from 'react/cjs/react.development';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
 const image = { uri: 'https://i.imgur.com/Xgyoy53.jpg' };
+
+const addedExpenses = [];
 
 const HomeScreen = ({ navigation }) => {
   const [ trip, setTrip ] = useContext(TripContext);
@@ -26,12 +29,19 @@ const HomeScreen = ({ navigation }) => {
 
   const isTrip = trip.isTrip;
 
+  console.log(trip);
+
   const addExpense = (expense) => {
-    setTrip({ ...trip, expenses: expense})
+    addedExpenses.push(expense)
+    setTrip({...trip, cost: trip.cost += expense.extraInfo })
     setRefresh(!refresh)
   }
 
-  const expenses = [trip.expenses];
+  useEffect(() => {
+    setTrip({...trip, expenses: addedExpenses})
+  }, [addedExpenses])
+
+  const expenses = addedExpenses;
 
 
   return (

@@ -17,16 +17,22 @@ import { TripContext } from '../context/TripContext';
 import { TripDateRangePicker } from './TripRangePicker';
 
 export const ExpenseInput = ({ addExp }) => {
-    const [ expense, setExpense ] = useState([]);
-
     const [ trip, setTrip ] = useContext(TripContext);
-
     const currency = trip.currency;
 
-    console.log(currency);
+    const [ expense, setExpense ] = useState({
+        name: '',
+        extraInfo: 0,
+        currency: ''
+    });
 
     const sendExpenses = () => {
         addExp(expense)
+        setExpense({
+            name: '',
+            extraInfo: 0,
+            currency: ''
+        })
     }
 
     return (
@@ -45,7 +51,7 @@ export const ExpenseInput = ({ addExp }) => {
                     label="Amount"
                     value={ expense.extraInfo }
                     clearButtonMode="always"
-                    onChangeText={ text => setExpense({ ...expense, extraInfo: text }) }
+                    onChangeText={ text => setExpense({ ...expense, extraInfo: text, currency: currency }) }
                 />
             </View>
             <View style={ tw.style('w-1/3', 'p-2', 'self-center') }>
@@ -63,7 +69,7 @@ export const TripInputs = () => {
     const [ tripDetails, setTripDetails ] = useState({
         name: '',
         details: '',
-        cost: '',
+        cost: 0,
         isTrip: false,
         inOrOut: 'International',
         startDate: '',

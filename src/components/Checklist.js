@@ -11,14 +11,17 @@ import tw from 'tailwind-react-native-classnames';
 
 const Item = ({ itemName, extraInfo, currency }) => (
     <View style={ tw.style('flex-1', 'flex-row', 'items-center', 'my-5', 'mx-3') }>
-        <TouchableOpacity>
+        <TouchableOpacity
+
+        >
             <Image 
                 source={{ uri: 'https://i.imgur.com/bLlL6Df.png' }}
                 style={[ { width: 25, height: 25 }, tw.style() ]}
             />
         </TouchableOpacity>
         <Text style={[ { fontSize: 20 }, tw.style('mx-5') ]}>{ itemName }</Text>
-        <Text style={[ { fontSize: 20 }, tw.style('mx-5') ]}>{ extraInfo }</Text>
+        <Text style={[ { fontSize: 20 }, tw.style('ml-5') ]}>{ currency }</Text>
+        <Text style={[ { fontSize: 20 }, tw.style('ml-2') ]}>{ extraInfo }</Text>
     </View>
 )
 
@@ -27,6 +30,7 @@ export const CheckList = ({ data, refreshState }) => {
         <Item 
             itemName={ item.name }
             extraInfo={ item.extraInfo }
+            currency={ item.currency }
         />
     )
 
@@ -34,7 +38,7 @@ export const CheckList = ({ data, refreshState }) => {
     const refresh = refreshState;
     const dataToUse = data;
 
-    console.log(dataToUse)
+    console.log(dataToUse);
 
 
     return (
