@@ -55,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </ImageBackground>
         :
-        <View style={ tw.style('w-3/4') }>
+        <View style={ tw.style('w-3/4', 'mt-10') }>
           <DayBudget />
         </View>
       }

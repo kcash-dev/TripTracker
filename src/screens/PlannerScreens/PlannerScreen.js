@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Text,
     Dimensions,
-    ScrollView 
+    ScrollView, 
+    ImageBackground
 } from 'react-native';
 import { colors } from '../../assets/Color';
 import tw from 'tailwind-react-native-classnames';
@@ -78,6 +79,8 @@ domesticThingsToDo = [
   }
 ]
 
+const image = { uri: 'https://i.imgur.com/7ZrafF1.jpg' };
+
 const PlannerScreen = ({ navigation }) => {
     const [ trip, setTrip ] = useContext(TripContext);
     const formattedStartDate = moment(trip.startDate).format("MMMM Do YYYY");
@@ -85,7 +88,7 @@ const PlannerScreen = ({ navigation }) => {
 
     return (
       <View 
-        style={[ { backgroundColor: colors.primaryColor, height: screenHeight }, tw.style( 'items-center') ]}
+        style={[ { backgroundColor: colors.primaryColor, height: screenHeight }, tw.style( 'items-center', 'mt-10', 'w-full') ]}
       >
         { !trip.isTrip ?
             <View style={ tw.style('w-1/2', 'justify-center', 'flex-1')}>
@@ -96,10 +99,12 @@ const PlannerScreen = ({ navigation }) => {
                 />
             </View>
             :
-            <ScrollView>
-              <View>
-                <Text style={[ { fontSize: 48, color: colors.fourthColor }, tw.style('text-center', 'my-10') ]}>{ trip.name }</Text>
-              </View>
+            <ScrollView style={ tw.style('w-full')}>
+              <ImageBackground source={ image } style ={{ resizeMode: 'cover' }, tw.style('opacity-80', 'h-36', 'my-2', 'w-full') }>
+                <View>
+                  <Text style={[ { fontSize: 48, color: colors.fourthColor }, tw.style('text-center', 'my-10', 'bg-white', 'bg-opacity-60', 'w-1/2', 'self-center') ]}>{ trip.name }</Text>
+                </View>
+              </ImageBackground>
               <Text style={[ { fontSize: 30 }, tw.style('text-center', 'font-bold') ]}>Dates</Text>
               <View style={ tw.style('flex-row', 'justify-center', 'my-3') }>
                 <Text style={[ { fontSize: 18, color: colors.fourthColor },  tw.style('text-center') ]}>{ formattedStartDate } - </Text>

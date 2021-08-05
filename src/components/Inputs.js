@@ -30,7 +30,7 @@ export const ExpenseInput = ({ addExp }) => {
         addExp(expense)
         setExpense({
             name: '',
-            extraInfo: 0,
+            extraInfo: '',
             currency: ''
         })
     }
@@ -49,9 +49,13 @@ export const ExpenseInput = ({ addExp }) => {
                 <TextInput 
                     style={ tw.style('w-2/6', 'bg-white', 'rounded-md', 'mb-4', 'h-12', 'shadow-lg', 'mx-4') }
                     label="Amount"
+                    keyboardType='numeric'
                     value={ expense.extraInfo }
                     clearButtonMode="always"
-                    onChangeText={ text => setExpense({ ...expense, extraInfo: text, currency: currency }) }
+                    onChangeText={ text => {
+                        let numberCost = parseInt(text)
+                        setExpense({ ...expense, extraInfo: numberCost, currency: currency }) 
+                    }}
                 />
             </View>
             <View style={ tw.style('w-1/3', 'p-2', 'self-center') }>
@@ -135,9 +139,13 @@ export const TripInputs = () => {
                 <TextInput 
                     style={ tw.style('w-1/2', 'bg-white', 'rounded-md', 'mb-4', 'shadow-lg') }
                     label="Enter Trip Cost"
+                    keyboardType='numeric'
                     value={ tripDetails.cost }
                     clearButtonMode="always"
-                    onChangeText={ text => setTripDetails({ ...tripDetails, cost: text }) }
+                    onChangeText={ text => {
+                        let numberCost = parseInt(text) 
+                        setTripDetails({ ...tripDetails, cost: numberCost }) }
+                    }
                 />
             </View>
             <TextInput 
